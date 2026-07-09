@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시오리 — 조용한 독서 기록</title>
+<meta name="description" content="읽고, 기록하고, 오래 간직하는 독서 다이어리. 인용·메모·사진 노트, 단어장, 포스트잇, 뽀모도로 집중까지.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#1c1c1e;
+    --ink-2:#6e6e73;   /* secondaryLabel */
+    --ink-3:#aeaeb2;   /* tertiaryLabel */
+    --line:#e5e5ea;    /* hairline */
+    --track:#e5e5ea;   /* systemGray5 */
+    --r-btn:8px;       /* MinimalRadius.button */
+    --r-chip:6px;      /* MinimalRadius.chip */
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0e0e0e;
+      --ink:#ebebeb;   /* Color.ink 0.92 */
+      --ink-2:#98989e;
+      --ink-3:#5d5d63;
+      --line:#2c2c2e;
+      --track:#2c2c2e;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",Segoe UI,Roboto,sans-serif;
+    line-height:1.7;letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:"Gowun Batang","Nanum Myeongjo",Georgia,serif}
+  .hand{font-family:"Caveat",cursive}
+  a{color:inherit}
+  .wrap{max-width:680px;margin:0 auto;padding:0 24px}
+
+  /* ---- 상단 바 : MinimalTopBar ---- */
+  nav{
+    position:sticky;top:0;z-index:10;background:var(--bg);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:52px;
+  }
+  .brand{
+    font-size:14px;font-weight:600;letter-spacing:.42em;text-indent:.42em;
+    font-family:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;
+  }
+  .nav-links{display:flex;gap:22px;font-size:13.5px;color:var(--ink-2)}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
+
+  /* ---- 점선 리더 (차례) ---- */
+  .toc-row{display:flex;align-items:baseline;gap:14px}
+  .leader{
+    flex:1;align-self:center;height:2px;
+    background-image:radial-gradient(circle, var(--ink-3) 1px, transparent 1.2px);
+    background-size:8px 2px;background-position:center;background-repeat:repeat-x;
+  }
+  .leader.bold{
+    height:5px;
+    background-image:radial-gradient(circle, var(--ink) 2.1px, transparent 2.3px);
+    background-size:11px 5px;
+  }
+
+  /* ---- 헤어라인 진행 바 : ProgressHairline ---- */
+  .hairline{height:2px;background:var(--track);margin-top:14px}
+  .hairline i{display:block;height:2px;background:var(--ink)}
+
+  /* ---- 히어로 ---- */
+  .hero{padding:72px 0 0}
+  .kicker{
+    font-size:12.5px;color:var(--ink-2);letter-spacing:.02em;margin:0 0 34px;
+  }
+  .kicker .toc-row{gap:18px}
+  h1.title{
+    font-family:"Gowun Batang",Georgia,serif;font-weight:400;
+    font-size:clamp(34px,7vw,48px);line-height:1.42;letter-spacing:.01em;
+    margin:0 0 22px;
+  }
+  .sub{font-size:16.5px;color:var(--ink-2);margin:0 0 36px;max-width:34em}
+
+  /* ---- 버튼 : FilledActionButton / TonalActionButton ---- */
+  .cta-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:var(--bg);text-decoration:none;
+    font-size:15px;font-weight:600;
+    padding:13px 22px;border-radius:var(--r-btn);
+  }
+  .btn.ghost{
+    background:transparent;color:var(--ink);
+    border:1px solid var(--line);font-weight:500;
+  }
+  .cta-note{font-size:12.5px;color:var(--ink-3);width:100%;margin-top:2px}
+  .apple{font-size:16px;line-height:1}
+
+  /* ---- 앱 미리보기 : Now Reading 차례 ---- */
+  .preview{
+    margin:64px 0 0;padding:44px 0 40px;
+    border-top:1px solid var(--line);
+  }
+  .nowreading{
+    font-family:"Caveat",cursive;font-weight:600;
+    font-size:34px;letter-spacing:.02em;
+    text-align:center;margin:6px 0 40px;
+  }
+  .book{margin:0 0 30px}
+  .book .toc-row{font-size:17px}
+  .book .title-t{font-weight:500;white-space:nowrap}
+  .book .page{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15.5px;white-space:nowrap}
+  .book .cap{font-size:12.5px;color:var(--ink-3);margin-top:8px}
+  .preview-note{font-size:12.5px;color:var(--ink-3);text-align:center;margin-top:34px}
+
+  /* ---- 기능 차례 ---- */
+  section.features{padding:26px 0 10px;border-top:1px solid var(--line)}
+  .sec-label{
+    font-size:12px;font-weight:600;letter-spacing:.3em;text-indent:.02em;
+    color:var(--ink-2);margin:28px 0 6px;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  .sec-title{
+    font-family:"Gowun Batang",Georgia,serif;font-weight:400;
+    font-size:27px;margin:0 0 8px;line-height:1.5;
+  }
+  .sec-sub{color:var(--ink-2);font-size:15.5px;margin:0 0 20px}
+  .feat{padding:26px 0;border-bottom:1px solid var(--line)}
+  .feat:last-of-type{border-bottom:0}
+  .feat .toc-row{margin-bottom:8px}
+  .feat h3{
+    font-family:"Gowun Batang",Georgia,serif;font-weight:700;
+    font-size:18.5px;margin:0;white-space:nowrap;letter-spacing:.01em;
+  }
+  .feat .num{
+    font-size:13px;color:var(--ink-2);white-space:nowrap;
+    font-family:"Gowun Batang",Georgia,serif;
+  }
+  .feat p{margin:0;color:var(--ink-2);font-size:15px;max-width:36em}
+
+  /* ---- 인용 ---- */
+  .band{border-top:1px solid var(--line);padding:66px 0 60px}
+  .band .page-mark{
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:13.5px;color:var(--ink-3);margin:0 0 14px;
+  }
+  .band blockquote{
+    font-family:"Gowun Batang",Georgia,serif;font-weight:400;
+    font-size:clamp(20px,4vw,25px);line-height:1.75;letter-spacing:.01em;
+    margin:0;max-width:24em;
+  }
+  .band .by{margin-top:18px;font-size:13px;color:var(--ink-3)}
+
+  /* ---- 다운로드 ---- */
+  .download{border-top:1px solid var(--line);padding:64px 0 78px}
+  .download h2{
+    font-family:"Gowun Batang",Georgia,serif;font-weight:400;
+    font-size:clamp(24px,5vw,30px);margin:6px 0 10px;line-height:1.5;
+  }
+  .download p{color:var(--ink-2);font-size:15.5px;margin:0 0 28px}
+  .download .cta-note{margin-top:14px}
+
+  /* ---- 푸터 ---- */
+  footer{border-top:1px solid var(--line);padding:34px 0 52px;font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+  .foot-brand{
+    font-size:12.5px;font-weight:600;letter-spacing:.42em;text-indent:.42em;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;margin-bottom:8px;
+  }
+  .foot-mail{font-size:13px;color:var(--ink-2)}
+  .foot-mail a{color:var(--ink-2)}
+  .foot-links{display:flex;gap:20px;color:var(--ink-2)}
+  .foot-links a{text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+  .copyright{margin-top:22px;color:var(--ink-3);font-size:12.5px}
+
+  @media (max-width:560px){
+    .hide-sm{display:none}
+    .feat h3{white-space:normal}
+  }
+</style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <div class="brand">시오리</div>
+      <div class="nav-links">
+        <a href="#features" class="hide-sm">기능</a>
+        <a href="#download">다운로드</a>
+        <a href="privacy.html">개인정보</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero wrap">
+    <div class="kicker">
+      <div class="toc-row"><span>조용한 독서 기록</span><span class="leader"></span><span>시오리</span></div>
+    </div>
+    <h1 class="title">읽은 것을<br>오래 간직하는 법</h1>
+    <p class="sub">
+      시오리는 조용한 독서 다이어리입니다.
+      읽고, 밑줄 긋고, 사진 한 장을 남기면 —
+      그 흔적이 당신의 서재에 차곡차곡 쌓입니다.
+    </p>
+    <div class="cta-row">
+      <a class="btn" href="#download"><span class="apple"></span> App Store에서 받기</a>
+      <a class="btn ghost" href="#features">기능 둘러보기</a>
+      <span class="cta-note">iPhone · iPad · Mac — iOS 17.3 이상</span>
+    </div>
+
+    <!-- 앱 홈 미리보기 : 차례 -->
+    <div class="preview">
+      <div class="nowreading">Now Reading</div>
+
+      <div class="book">
+        <div class="toc-row">
+          <span class="title-t">안녕이라 그랬어</span>
+          <span class="leader bold"></span>
+          <span class="page">115p</span>
+        </div>
+        <div class="hairline"><i style="width:37%"></i></div>
+      </div>
+
+      <div class="book">
+        <div class="toc-row">
+          <span class="title-t">재지마인드</span>
+          <span class="leader bold"></span>
+          <span class="page">45p</span>
+        </div>
+        <div class="hairline"><i style="width:18%"></i></div>
+        <div class="cap">5일째 45p에 머물러 있어요</div>
+      </div>
+
+      <div class="book">
+        <div class="toc-row">
+          <span class="title-t">레인보우 맨션</span>
+          <span class="leader bold"></span>
+          <span class="page">88%</span>
+        </div>
+        <div class="hairline"><i style="width:88%"></i></div>
+      </div>
+
+      <div class="book" style="margin-bottom:0">
+        <div class="toc-row">
+          <span class="title-t">책 산책시키는 사람</span>
+          <span class="leader bold"></span>
+          <span class="page">210p</span>
+        </div>
+        <div class="hairline"><i style="width:64%"></i></div>
+      </div>
+
+      <p class="preview-note">지금 읽는 책들이, 책의 차례처럼 놓입니다.</p>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section id="features" class="features wrap">
+    <p class="sec-label">차례</p>
+    <h2 class="sec-title">기록하는 즐거움, 그대로</h2>
+    <p class="sec-sub">독서의 모든 순간을 담을 수 있도록. 필요한 것만, 담백하게.</p>
+
+    <div class="feat">
+      <div class="toc-row"><h3>책 기록과 진행률</h3><span class="leader"></span><span class="num">하나</span></div>
+      <p>읽는 중·완독·별점까지. 페이지 진행률과 완독의 순간을 한눈에 모아 봅니다.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>인용 · 메모 · 사진 노트</h3><span class="leader"></span><span class="num">둘</span></div>
+      <p>인상 깊은 문장, 떠오른 생각, 한 장의 사진. 채팅하듯 편하게 남기는 독서 노트.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>문장 스캔</h3><span class="leader"></span><span class="num">셋</span></div>
+      <p>책 속 문장을 카메라로 찍으면 텍스트로. 모든 인식은 기기 안에서 이뤄집니다.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>단어장과 한자</h3><span class="leader"></span><span class="num">넷</span></div>
+      <p>모르는 낱말을 저장하고 뜻풀이와 한자를 함께. 표준국어대사전·우리말샘 연동.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>포스트잇</h3><span class="leader"></span><span class="num">다섯</span></div>
+      <p>무지·줄노트·모눈, 은은한 톤온톤 색지. 손으로 쓴 듯한 감성의 메모지.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>뽀모도로 집중</h3><span class="leader"></span><span class="num">여섯</span></div>
+      <p>읽는 시간에 집중하도록. 필요하면 다른 앱을 잠시 잠가 두는 집중 모드까지.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>독서 잔디와 위젯</h3><span class="leader"></span><span class="num">일곱</span></div>
+      <p>지난 열두 달의 독서를 잔디로. 오늘의 인용과 단어, 집중 타이머를 홈 화면에서 바로.</p>
+    </div>
+    <div class="feat">
+      <div class="toc-row"><h3>iCloud 동기화</h3><span class="leader"></span><span class="num">여덟</span></div>
+      <p>기록은 내 기기와 내 iCloud에만. 광고도, 추적도 없이 온전히 나의 서재.</p>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="band">
+    <div class="wrap">
+      <p class="page-mark">115p</p>
+      <blockquote>"한 권의 책을 덮을 때,<br>남는 것은 문장이 아니라 그때의 나였다."</blockquote>
+      <div class="by">시오리</div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <section id="download" class="download wrap">
+    <p class="sec-label">다운로드</p>
+    <h2>오늘의 독서를 기록해 보세요</h2>
+    <p>iPhone · iPad · Mac에서. 계정 없이 바로 시작할 수 있습니다.</p>
+    <div class="cta-row">
+      <a class="btn" href="#"><span class="apple"></span> App Store에서 받기</a>
+    </div>
+    <p class="cta-note">※ App Store 링크는 앱 심사 통과 후 실제 URL로 교체하세요.</p>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <div class="foot-brand">시오리</div>
+        <div class="foot-mail">문의 · <a href="mailto:ohttangent@gmail.com">ohttangent@gmail.com</a></div>
+      </div>
+      <div class="foot-links">
+        <a href="#features">기능</a>
+        <a href="privacy.html">개인정보 처리방침</a>
+        <a href="mailto:ohttangent@gmail.com">문의</a>
+      </div>
+    </div>
+    <div class="wrap copyright">© 2026 시오리. 개인 개발 프로젝트.</div>
+  </footer>
+
+</body>
+</html>
