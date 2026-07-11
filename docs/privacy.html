@@ -129,19 +129,23 @@
     </h1>
     <p class="meta">
       <b>시오리</b>(이하 "앱")는 이용자의 개인정보를 소중히 여기며, 아래와 같이 데이터를 처리합니다.<br>
-      시행일자 (Effective date): <b>2026년 7월 8일</b> · 최종 수정: 2026년 7월 8일
+      시행일자 (Effective date): <b>2026년 7월 8일</b> · 최종 수정: 2026년 7월 11일
     </p>
   </header>
 
   <div class="lede">
-    <strong>한눈에 보기.</strong> 시오리는 광고·추적을 위한 어떠한 분석 도구도 사용하지 않습니다.
+    <strong>한눈에 보기.</strong> 시오리는 광고를 싣지 않고, 광고·마케팅 목적의 추적을 하지 않습니다.
     독서 기록·노트·사진·단어장은 <strong>이용자의 기기와 이용자 본인의 iCloud에만 저장</strong>되며,
-    개발자를 포함한 제3자에게 전송되지 않습니다. 책·단어 검색어만 해당 검색 API로 전송됩니다.
+    개발자를 포함한 제3자에게 전송되지 않습니다. 책·단어 검색어는 해당 검색 API로 전송되고,
+    앱 개선을 위한 <strong>익명 사용 통계·오류 정보</strong>가 Google Firebase를 통해 수집됩니다
+    (이용자가 쓴 기록 내용은 절대 포함되지 않습니다 — 5항 참조).
     <br><br>
     <span class="en">
-    At a glance — Siori uses no advertising or tracking analytics. Your reading records, notes, photos,
+    At a glance — Siori shows no ads and does no ad or marketing tracking. Your reading records, notes, photos,
     and vocabulary are stored only on your device and in your personal iCloud, and are never sent to the
-    developer or any third party. Only your book and dictionary search terms are sent to the relevant search APIs.
+    developer or any third party. Book and dictionary search terms are sent to the relevant search APIs, and
+    anonymized usage statistics and crash reports are collected via Google Firebase — never including anything
+    you write (see §5).
     </span>
   </div>
 
@@ -191,6 +195,11 @@
           <td>책과 단어 검색 결과를 받아오기 위해 (아래 5항)</td>
           <td>외부 검색 API로 전송</td>
         </tr>
+        <tr>
+          <td>사용 통계·오류 정보<br><span class="td-en">Usage stats · crash reports</span></td>
+          <td>앱 개선과 오류 수정을 위해 — 화면 이동, 기능 사용 이벤트, 기기 모델·OS 버전, 크래시 진단 (노트·인용 등 기록 내용은 포함되지 않음, 아래 5항)</td>
+          <td>Google Firebase로 전송</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -228,7 +237,7 @@
   <p class="en-note">Location (while-in-use) is used only to show your position on the bookshop map. It is never stored or transmitted, and is optional.</p>
 
   <!-- 5 -->
-  <h2><span class="toc-row"><span class="num">05</span><span class="t">제3자 서비스 (검색 API)</span><span class="leader"></span><span class="en">Third-party services</span></span></h2>
+  <h2><span class="toc-row"><span class="num">05</span><span class="t">제3자 서비스</span><span class="leader"></span><span class="en">Third-party services</span></span></h2>
   <p>책·단어 검색 시, 검색 결과를 받아오기 위해 <strong>이용자가 입력한 검색어 또는 책의 ISBN이</strong> 아래 외부 서비스로 전송됩니다.
   독서 기록·노트·사진 등 다른 개인 데이터는 전송되지 않습니다. 각 서비스는 자체 개인정보 처리방침을 따릅니다.</p>
   <p class="en-note">When you search, only your query term or a book's ISBN is sent to the services below to fetch results. No other personal data (records, notes, photos) is sent. Each service has its own privacy policy.</p>
@@ -246,9 +255,15 @@
       </tbody>
     </table>
   </div>
+  <p>또한 앱의 안정성 확인과 개선을 위해 <strong>Google Firebase Analytics·Crashlytics</strong>를 사용합니다.
+  이를 통해 전송되는 정보는 익명 식별자, 기기 모델·OS 버전, 화면 이동·기능 사용 이벤트(예: "책을 완독함"), 오류(크래시) 진단 기록입니다.
+  <strong>이용자가 작성한 노트·인용·소감 등 기록 내용과 이름·이메일 주소는 절대 전송되지 않으며</strong>,
+  광고 식별자(IDFA)를 사용하지 않고 광고·마케팅 목적의 추적이나 프로파일링을 하지 않습니다.
+  Firebase의 데이터 처리는 <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Firebase 개인정보 문서</a>를 따릅니다.</p>
+  <p class="en-note">The app also uses Google Firebase Analytics &amp; Crashlytics for stability and improvement. This sends an anonymous identifier, device model/OS version, screen and feature-usage events, and crash diagnostics. Nothing you write (notes, quotes, reviews) and no name or email is ever sent; no advertising identifier (IDFA) is used, and there is no ad tracking or profiling. Firebase's data handling is governed by its privacy documentation.</p>
   <p>이 밖에 알림 전송을 위해 Apple의 푸시 서비스(APNs)와 iCloud 동기화(CloudKit)를 사용합니다. 앱은
-  <strong>광고 네트워크·추적·분석(analytics) 도구를 일절 사용하지 않으며</strong>, 이용자 활동을 추적하거나 프로파일링하지 않습니다.</p>
-  <p class="en-note">The app also uses Apple's push service (APNs) and iCloud sync (CloudKit). It uses no advertising networks, trackers, or analytics tools, and does not track or profile you.</p>
+  <strong>광고 네트워크를 일절 사용하지 않습니다.</strong></p>
+  <p class="en-note">The app also uses Apple's push service (APNs) and iCloud sync (CloudKit). It uses no advertising networks.</p>
 
   <!-- 6 -->
   <h2><span class="toc-row"><span class="num">06</span><span class="t">알림</span><span class="leader"></span><span class="en">Notifications</span></span></h2>
@@ -268,15 +283,15 @@
   <!-- 8 -->
   <h2><span class="toc-row"><span class="num">08</span><span class="t">아동의 개인정보</span><span class="leader"></span><span class="en">Children's privacy</span></span></h2>
   <p>앱은 아동을 주 대상으로 하지 않으며, 만 14세 미만 아동으로부터 고의로 개인정보를 수집하지 않습니다.
-  애초에 앱은 개발자에게 개인정보를 전송하지 않으므로 개발자가 보유하는 아동 정보는 없습니다.
+  앱은 이용자를 식별할 수 있는 개인정보를 개발자에게 전송하지 않으므로 개발자가 보유하는 아동 정보는 없습니다.
   보호자께서 자녀의 앱 이용에 관해 문의가 있으시면 아래 연락처로 연락해 주세요.</p>
-  <p class="en-note">The app is not directed at children and does not knowingly collect personal information from children under 14. As no personal data is sent to the developer, the developer holds no such information.</p>
+  <p class="en-note">The app is not directed at children and does not knowingly collect personal information from children under 14. As no identifying personal data is sent to the developer, the developer holds no such information.</p>
 
   <!-- 9 -->
   <h2><span class="toc-row"><span class="num">09</span><span class="t">이용자의 권리</span><span class="leader"></span><span class="en">Your rights</span></span></h2>
-  <p>이용자는 언제든지 앱 안에서 자신의 데이터를 열람·수정·삭제할 수 있습니다. 개발자가 별도로 보관하는 이용자 데이터가 없으므로,
+  <p>이용자는 언제든지 앱 안에서 자신의 데이터를 열람·수정·삭제할 수 있습니다. 개발자가 별도로 보관하는 이용자 식별 데이터가 없으므로,
   삭제·정정 요청은 앱 내 삭제 기능 또는 iCloud 관리로 이용자가 직접 수행할 수 있습니다. 그 밖의 문의는 아래 연락처로 요청하실 수 있습니다.</p>
-  <p class="en-note">You can view, edit, and delete your data at any time within the app. The developer holds no separate copy, so access and erasure are carried out by you directly, in-app or via iCloud.</p>
+  <p class="en-note">You can view, edit, and delete your data at any time within the app. The developer holds no separate identifiable copy, so access and erasure are carried out by you directly, in-app or via iCloud.</p>
 
   <!-- 10 -->
   <h2><span class="toc-row"><span class="num">10</span><span class="t">방침의 변경</span><span class="leader"></span><span class="en">Changes</span></span></h2>
